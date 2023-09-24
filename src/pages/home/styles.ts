@@ -1,4 +1,4 @@
-import { Heading, styled } from "@jiij-ignite-ui/react";
+import { Heading, Text, styled } from "@jiij-ignite-ui/react";
 
 export const Container = styled("div", {
   // tamanho da tela, menos o que sobra da largura do conteudo
