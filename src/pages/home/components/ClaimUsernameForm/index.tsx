@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form, FormAnnotation } from "./styles";
+import { useRouter } from "next/router";
 
 const claimUsernameFormSchema = z.object({
   username: z
@@ -26,8 +27,14 @@ export function ClaimUsernameForm() {
     resolver: zodResolver(claimUsernameFormSchema),
   });
 
+  const router = useRouter();
+
+  // se nao usar o async, o isSubmitting nem vai aparecer.\
   async function handlePreRegister(data: any) {
-    console.log(data);
+    const { username } = data;
+
+    // push retorna uma promise pq ele pode demorar um pouco
+    await router.push(`/register?username=${username}`);
   }
 
   return (
