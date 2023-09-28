@@ -1,11 +1,14 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Heading, MultiStep, Text, TextInput } from "@ignite-ui/react";
-import { Container, Form, FormError, Header } from "./styles";
+import { useRouter } from "next/router";
 import { ArrowRight } from "phosphor-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+
+import { api } from "@/lib/ky";
+
+import { Container, Form, FormError, Header } from "./styles";
 
 const registerFormSchema = z.object({
   username: z
@@ -30,7 +33,18 @@ export default function Register() {
 
   const router = useRouter();
 
-  async function handleRegister(data: RegisterFormData) {}
+  async function handleRegister(data: RegisterFormData) {
+    try {
+      await api.post("users", {
+        body: JSON.stringify({
+          username: data.username,
+          name: data.name,
+        }),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
     if (router.query.username) {
@@ -57,6 +71,7 @@ export default function Register() {
         <label>
           <Text size="sm">Nome de usuário</Text>
           <TextInput
+            crossOrigin
             prefix="ignite.com/"
             placeholder="Seu usuário"
             {...register("username")}
@@ -69,7 +84,11 @@ export default function Register() {
 
         <label>
           <Text size="sm">Nome completo</Text>
-          <TextInput placeholder="Seu nome" {...register("name")} />
+          <TextInput
+            crossOrigin // TS is expecting this prop for some reason
+            placeholder="Seu nome"
+            {...register("name")}
+          />
 
           {errors.name && (
             <FormError size="sm">{errors.name.message}</FormError>
