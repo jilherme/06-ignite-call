@@ -12,7 +12,7 @@ export default async function handler(
     return res.status(405).end(); // 405 = Method Not Allowed, don't need to send a message
   }
 
-  const { name, username } = req.body;
+  const { name, username } = JSON.parse(req.body);
 
   const user = await prisma.user.create({
     data: {
