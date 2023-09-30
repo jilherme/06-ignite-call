@@ -42,6 +42,8 @@ export default function Register() {
           name: data.name,
         }),
       });
+
+      await router.push("/register/connect-calendar");
     } catch (err) {
       if (err instanceof HTTPError && err.message) {
         alert(err.message);
