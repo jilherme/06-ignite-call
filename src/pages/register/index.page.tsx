@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Heading, MultiStep, Text, TextInput } from "@ignite-ui/react";
+import { HTTPError } from "ky";
 import { useRouter } from "next/router";
 import { ArrowRight } from "phosphor-react";
 import { useEffect } from "react";
@@ -42,6 +43,10 @@ export default function Register() {
         }),
       });
     } catch (err) {
+      if (err instanceof HTTPError && err.message) {
+        alert(err.message);
+      }
+
       console.log(err);
     }
   }
