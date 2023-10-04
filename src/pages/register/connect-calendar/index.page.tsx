@@ -24,7 +24,7 @@ export default function Register() {
 
       <ConnectBox>
         <ConnectItem>
-          <Text>Google Calendaer</Text>
+          <Text>Google Calendar</Text>
           <Button
             variant="secondary"
             size="sm"
