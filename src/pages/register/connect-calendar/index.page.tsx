@@ -1,14 +1,23 @@
 import { Button, Heading, MultiStep, Text } from "@ignite-ui/react";
-import { signIn } from "next-auth/react";
-import { ArrowRight } from "phosphor-react";
+import { useRouter } from "next/router";
+import { signIn, useSession } from "next-auth/react";
+import { ArrowRight, Check } from "phosphor-react";
 
 import { api } from "@/lib/ky";
 
-import { ConnectBox, ConnectItem } from "./styles";
+import { AuthError, ConnectBox, ConnectItem } from "./styles";
 import { Container, Header } from "../styles";
 
 export default function Register() {
-  // async function handleRegister(data) {}
+  const session = useSession();
+  const router = useRouter();
+
+  const hasAuthError = !!router.query.error;
+  const isSignedIn = session.status === "authenticated";
+
+  async function handleConnectCalendar() {
+    await signIn("google");
+  }
 
   return (
     <Container>
@@ -25,17 +34,35 @@ export default function Register() {
       <ConnectBox>
         <ConnectItem>
           <Text>Google Calendar</Text>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => signIn("google")}
-          >
-            Conectar
-            <ArrowRight />
-          </Button>
+          {isSignedIn ? (
+            <Button size="sm" disabled aria-disabled="true">
+              Conectado
+              <Check />
+            </Button>
+          ) : (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleConnectCalendar}
+            >
+              Conectar
+              <ArrowRight />
+            </Button>
+          )}
         </ConnectItem>
 
-        <Button type="submit">
+        {hasAuthError && (
+          <AuthError size="sm">
+            Falha ao se conectar ao Google, verifique se você habilitou as
+            permissões de acesso ao <strong>Google Calendar</strong>.
+          </AuthError>
+        )}
+
+        <Button
+          type="submit"
+          aria-disabled={!isSignedIn}
+          disabled={!isSignedIn}
+        >
           Próximo passo
           <ArrowRight />
         </Button>
