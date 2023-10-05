@@ -13,6 +13,7 @@ export function buildNextAuthOptions(
   res: NextApiResponse
 ): NextAuthOptions {
   return {
+    // will send the req to the adapter so we can get the cookies
     adapter: PrismaAdapter(req, res),
 
     providers: [
@@ -46,6 +47,13 @@ export function buildNextAuthOptions(
         }
 
         return true;
+      },
+
+      async session({ session, user }) {
+        return {
+          ...session,
+          user,
+        };
       },
     },
   };
