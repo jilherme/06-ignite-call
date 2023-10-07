@@ -9,7 +9,7 @@ export const IntervalBox = styled(Box, {
 export const IntervalsContainer = styled("div", {
   border: "1px solid $gray600",
   borderRadius: "$md",
-  marbinBottom: "$4",
+  marginBottom: "$4",
 });
 
 export const IntervalItem = styled("div", {
@@ -36,6 +36,6 @@ export const IntervalInputs = styled("div", {
   gap: "$2",
 
   "input::-webkit-calendar-picker-indicator": {
-    filter: "invert(100%) brightness(30%)",
+    filter: "invert(100%) brightness(40%)",
   },
 });
