@@ -101,6 +101,8 @@ export default function TimeIntervals() {
     console.log(data);
   }
 
+  console.log(errors);
+
   return (
     <Container>
       <Header>
