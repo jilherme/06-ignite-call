@@ -11,6 +11,7 @@ import { ArrowRight } from "phosphor-react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { api } from "@/lib/ky";
 import { convertTimeStringToMinutes } from "@/utils/convert-time-string-to-minutes";
 import { getWeekDays } from "@/utils/get-week-days";
 
@@ -41,7 +42,7 @@ const timeIntervalsFormSchema = z.object({
     })
     .transform((intervals) => {
       return intervals.map((interval) => ({
-        weekday: interval.weekDay,
+        weekDay: interval.weekDay,
         startTimeInMinutes: convertTimeStringToMinutes(interval.startTime),
         endTimeInMinutes: convertTimeStringToMinutes(interval.endTime),
       }));
@@ -98,10 +99,12 @@ export default function TimeIntervals() {
   const intervals = watch("intervals");
 
   async function handleSetTimeIntervals(data: TimeIntervalsFormOutput) {
-    console.log(data);
-  }
+    const { intervals } = data;
 
-  console.log(errors);
+    await api.post("users/time-intervals", {
+      body: JSON.stringify({ intervals }),
+    });
+  }
 
   return (
     <Container>
