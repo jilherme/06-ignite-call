@@ -12,8 +12,7 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405).end(); // 405 = Method Not Allowed, don't need to send a message
   }
-
-  const { name, username } = JSON.parse(req.body);
+  const { name, username } = req.body;
 
   // findUnique faz uma busca por um registro com identificador unico
   const userExists = await prisma.user.findUnique({
