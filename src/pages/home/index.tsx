@@ -1,8 +1,9 @@
-import Image from "next/image";
 import { Heading, Text } from "@jiij-ignite-ui/react";
+import Image from "next/image";
 
 import { previewImage } from "@/assets";
 
+import { ClaimUsernameForm } from "./components/ClaimUsernameForm";
 import { Container, Hero, Preview } from "./styles";
 
 export default function Home() {
@@ -16,6 +17,8 @@ export default function Home() {
           Conecte seu calendário e permita que as pessoas marquem agendamentos
           no seu tempo livre.
         </Text>
+
+        <ClaimUsernameForm />
       </Hero>
 
       <Preview>
