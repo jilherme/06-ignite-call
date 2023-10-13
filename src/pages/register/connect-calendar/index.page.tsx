@@ -3,8 +3,6 @@ import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { ArrowRight, Check } from "phosphor-react";
 
-import { api } from "@/lib/ky";
-
 import { AuthError, ConnectBox, ConnectItem } from "./styles";
 import { Container, Header } from "../styles";
 
@@ -17,6 +15,10 @@ export default function ConnectCalendar() {
 
   async function handleConnectCalendar() {
     await signIn("google");
+  }
+
+  async function handleNavigateToNextStep() {
+    await router.push("/register/time-intervals");
   }
 
   return (
@@ -59,6 +61,7 @@ export default function ConnectCalendar() {
         )}
 
         <Button
+          onClick={handleNavigateToNextStep}
           type="submit"
           aria-disabled={!isSignedIn}
           disabled={!isSignedIn}

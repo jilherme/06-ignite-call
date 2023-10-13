@@ -2,15 +2,15 @@
 // [...route] === receive a param from the route and can receive more than one param
 // /api/auth/callback/google/fsdfsdf/etc
 
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 
 import { PrismaAdapter } from "@/lib/auth/prisma-adapter";
 
 export function buildNextAuthOptions(
-  req: NextApiRequest,
-  res: NextApiResponse
+  req: NextApiRequest | NextPageContext["req"],
+  res: NextApiResponse | NextPageContext["res"]
 ): NextAuthOptions {
   return {
     // will send the req to the adapter so we can get the cookies
