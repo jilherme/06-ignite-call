@@ -1,5 +1,8 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
+import { api } from "@/lib/ky";
 
 import {
   Container,
@@ -12,13 +15,32 @@ import { Calendar } from "../../../../../components/Calendar";
 
 export function CalendarStep() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [availability, setAvailability] = useState(null);
+
+  const router = useRouter();
 
   const isDateSelected = !!selectedDate;
+  const username = String(router.query.username);
 
   const weekDay = selectedDate ? dayjs(selectedDate).format("dddd") : null;
   const monthDay = selectedDate
     ? dayjs(selectedDate).format("DD[ de ]MMMM")
     : null;
+
+  useEffect(() => {
+    if (!selectedDate) return;
+
+    api
+      .get(`users/${username}/availability`, {
+        searchParams: {
+          date: dayjs(selectedDate).format("YYYY-MM-DD"),
+        },
+      })
+      .json()
+      .then((response) => {
+        console.log("response => ", response?.data);
+      });
+  }, [selectedDate, username]);
 
   return (
     <Container isTimePickerOpen={isDateSelected}>
