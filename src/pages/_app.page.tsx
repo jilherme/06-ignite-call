@@ -1,8 +1,10 @@
+import { QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import { Roboto } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
-import "../lib/dayjs";
 
+import { queryClient } from "@/lib/react-query";
+import "../lib/dayjs";
 import { globalStyles } from "@/styles/global";
 
 const roboto = Roboto({
@@ -18,14 +20,11 @@ export default function App({
 }: AppProps) {
   return (
     <>
-      <style jsx global>{`
-        html {
-          font-family: ${roboto.style.fontFamily};
-        }
-      `}</style>
-      <SessionProvider session={session}>
-        <Component {...pageProps} />
-      </SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </QueryClientProvider>
     </>
   );
 }
