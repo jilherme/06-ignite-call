@@ -33,7 +33,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.47.0",
     "typescript": "5.1.6",
-    "undici": "^5.27.0",
+    "undici": "^5.28.4",
     "zod": "^3.22.4"
   },
   "devDependencies": {
